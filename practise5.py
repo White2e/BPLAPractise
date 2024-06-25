@@ -26,21 +26,16 @@ class GPS:
 class DistanceSensor:
     def __init__(self, max_dist=10000.0):
       self.max_dist = max_dist
-      self.cur_dist = self.get_dist()
+      self.cur_dist = self.update_dist()
 
     def update_dist(self):
-      """
-    
-      """
       return random.uniform(0, self.max_dist)
 
     def get_dist(self):
       print(self.cur_dist)
       return self.cur_dist
-  
 
 
-  
 #print(__name__)
 if __name__ == "__main__":
   gps_module = GPS((55.7856, 37.5665))

@@ -51,7 +51,7 @@ class Drone:
     self.dist_sensor = DistanceSensor()
 
   def get_dist(self):
-    return self.dist_sensor.get_distance()
+    return self.dist_sensor.get_dist()
   
   def get_coords(self):
     self.cur_coordinates = self.gps.update_coordinates()
@@ -64,13 +64,13 @@ class Drone:
     pass
 
   def get_info(self):
-    print(f"Модель: {self.model}, Вес: {self.weight}, Грузоподъемность:")
+    print(f"Модель: {self.model}, Вес: {self.weight}, Грузоподъемность: {self.payload}")
     info = f"""
     -------Квадрокоптер-------
     Бренд: {self.brand} Модель: {self.model}
     Количество роторов: {self.n_rotors}
     Высота: {self.altitude} м, Скорость: {self.speed} м/сек.
-    Вес БПЛА: {self.weight} кг, Грузоподъемность: {self.speed} гр.
+    Вес БПЛА: {self.weight} кг, Грузоподъемность: {self.payload} кг.
     Тангаж: {self.pitch}, Крен: {self.roll} Рысканье: {self.yaw}
     Скорость вращения пропеллеров: {self.propellers_speed}
     ({self.propellers_speed[0]})       ({self.propellers_speed[1]})
