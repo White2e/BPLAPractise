@@ -2,17 +2,16 @@ import random
 
 
 class Drone:
-    def __init__(self, id="HW02",
-                 max_altitude=300,
-                 max_speed=60):
+    def __init__(self, id="HW02", max_altitude=300, max_speed=60):
         self.__id = id
         self.__max_altitude = max_altitude
         self.__max_speed = max_speed
         self.__cur_altitude = 0
         self.__cur_speed = 0
-        self.__cur_coord = (0.0, 0, 0)
-        self.__coord = (0.0, 0, 0)
+        self.__cur_coord = (0.0, 0.0)
+        self.__coord = (0.0, 0.0)
         self.__flight_path = []
+        self.__camera_status = 'Off'
 
     def set_max_altitude(self, max_altitude: float):
         if max_altitude > 0 and max_altitude < 3000:
