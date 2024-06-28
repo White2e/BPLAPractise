@@ -1,4 +1,4 @@
-from practise5 import GPS, DistanceSensor
+from practise_1_5 import GPS, DistanceSensor
 
 class Drone:
   brand = "БПЛА РФ"

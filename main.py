@@ -15,4 +15,4 @@
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
-import practise2
+import practise_1_2

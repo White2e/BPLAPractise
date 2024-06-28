@@ -1,4 +1,4 @@
-from practise4 import Drone
+from practise_1_4 import Drone
 
 
 drone1 = Drone("T-1000", 10, 5, "1234587V")
