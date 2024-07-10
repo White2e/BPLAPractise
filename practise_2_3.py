@@ -20,7 +20,8 @@ class JSONAdapter:
         root = ET.fromstring(xml_data)
         return self.xml_to_json(root)
 
-    def xml_to_json(self, root):
+    @staticmethod
+    def xml_to_json(root):
         dict_data = {}
         for element in root:
             dict_data[element.tag] = element.text
