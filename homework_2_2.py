@@ -88,12 +88,13 @@ class MyClass2(MyBase):
         print("MyClass2: Реализация шага 3")
 
 
-# Пример использования
-instance1 = MyClass1()
-instance2 = MyClass2()
+if __name__ == "__main__":
+    # Пример использования
+    instance1 = MyClass1()
+    instance2 = MyClass2()
 
-print("Вызов template_method для MyClass1:")
-instance1.template_method()
+    print("Вызов template_method для MyClass1:")
+    instance1.template_method()
 
-print("\nВызов template_method для MyClass2:")
-instance2.template_method()
+    print("\nВызов template_method для MyClass2:")
+    instance2.template_method()
