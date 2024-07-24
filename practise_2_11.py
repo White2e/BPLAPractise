@@ -22,7 +22,7 @@ class QueryBuilder:
             "WHERE": None,
             "GROUP BY": None,
             "INSERT_INTO": None,
-            "ORDER BY": None,
+            "ORDER_BY": None,
             "VALUES": None
 
         }
@@ -68,22 +68,17 @@ class QueryBuilder:
         return self
 
     def get_query(self):
-        query = self._query.get("SELECT") or ""
-        query += self._query.get("FROM") or ""
-        query += self._query.get("WHERE") or ""
-        query += self._query.get("GROUP BY") or ""
-        query += self._query.get("INSERT_INTO") or ""
-        query += self._query.get("ORDER BY") or ""
+        query = ""
+        if self._query["SELECT"]:
+            query = f"{self._query['SELECT']} {self._query['FROM']}"
+        if self._query["WHERE"]:
+            query += f" {self._query['WHERE']}"
+        if self._query["ORDER_BY"]:
+            query += f" {self._query['ORDER_BY']}"
+        if self._query["INSERT_INTO"]:
+            query = f"{self._query['INSERT_INTO']} {self._query['VALUES']}"
+        return query
 
-        if query.endswith(" "):
-            query = query[:-1]
-
-        if self._query.get("INSERT_INTO"):
-            params = self._params
-        else:
-            params = tuple(self._params)
-
-        return query, params
 
     def get_params(self):
         return self._params
@@ -98,17 +93,18 @@ if __name__ == "__main__":
 
     drone = {"model": "Drone 1", "manufacturer": "Manufacturer", "year": 2022}
     query_builder = QueryBuilder()
-    insert_into = query_builder.insert_into("tbl_drones", ["model", "manufacturer", "year"]).values(drone["id"], drone["model"], drone["manufacturer"], drone["year"]).get_query()
+    insert_into = query_builder.insert_into("tbl_drones", ["model", "manufacturer", "year"]).values(drone["model"], drone["manufacturer"], drone["year"]).get_query()
     print(insert_into)
     params = query_builder.get_params()
     print(params)
 
-    cursor.execute(*insert_into, params)
+    cursor.execute(insert_into, params)
     connection.commit()
 
-    select_query = query_builder.select("tbl_drones", ["id", ""]).get_query()
-    select_params = query_builder.get_params()
-    cursor.execute(*select_query, select_params)
+    query_builder2 = QueryBuilder()
+    select_query2 = query_builder2.select("tbl_drones").get_query()
+
+    cursor.execute(select_query2)
     results = cursor.fetchall()
     for row in results:
         print(row)
