@@ -7,6 +7,7 @@
 
 from abc import ABC, abstractmethod
 
+# Создаем абстрактный класс SomeObject
 class SomeObject(ABC):
     @abstractmethod
     def get_data(self):
@@ -16,6 +17,8 @@ class SomeObject(ABC):
     def set_data(self, data):
         pass
 
+
+# Создаем реальный объект RealObject, который реализует интерфейс SomeObject
 class RealObject(SomeObject):
     def __init__(self):
         self._data = None
@@ -26,6 +29,8 @@ class RealObject(SomeObject):
     def set_data(self, data):
         self._data = data
 
+
+# Создаем прокси-класс Proxy
 class Proxy(SomeObject):
     def __init__(self, real_object, user):
         self._real_object = real_object
@@ -43,6 +48,7 @@ class Proxy(SomeObject):
         else:
             raise PermissionError("User does not have permission to set data")
 
+# Создаем класс Пользователя User
 class User:
     def __init__(self, name, permissions):
         self.name = name
@@ -52,6 +58,7 @@ class User:
         return permission in self.permissions
 
 
+# Создаем прокси-класс SecureProxy, который реализует интерфейс SomeObject с дополнительной проверкой безопасности
 class SecureProxy(SomeObject):
     def __init__(self, real_object, user):
         self._real_object = real_object
@@ -75,6 +82,8 @@ class SecureProxy(SomeObject):
         return self._user.name == "admin"
 
 
+
+# Создаем интерфейс DroneInterface
 class DroneInterface(ABC):
     @abstractmethod
     def fly(self):
@@ -84,6 +93,8 @@ class DroneInterface(ABC):
     def land(self):
         pass
 
+
+# Создаем реальный объект Drone и прокси-класс SecureDroneProxy
 class Drone(DroneInterface):
     def fly(self):
         print("Drone is flying")
@@ -115,6 +126,7 @@ class SecureDroneProxy(DroneInterface):
         return self._user.name == "admin"
 
 
+# Запуск главной функции
 def main():
     # Создаем пользователя и проверяем права доступа
     user1 = User("admin", ["get_data", "set_data", "fly"])
