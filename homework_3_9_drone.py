@@ -32,7 +32,7 @@ mission = {
 BASE_URL = "http://localhost:5000/drones"
 
 
-# Регистрация БПЛА
+#  Создание нового БПЛА (HTTP метод: POST, Эндпоинт: `/drones`)
 def register_drone():
     payload = {
         **drone
@@ -43,10 +43,20 @@ def register_drone():
     return response.json()
 
 
+# Удаление БПЛА (HTTP метод: DELETE, Эндпоинт: `/drones/{id}`)
+def delete_drone():
+    url = BASE_URL + '/' + drone['id']
+    response = requests.delete(url)
+    if response.status_code == 200:
+        drone['status'] = 'landed'
+        print(f"Drone ID: {drone['id']} deleted")
+    #return response.json()
+
+
 # Получение миссии с сервера
 @app.route('/missions', methods=['POST'])
 def create_mission():
-    print(request.json)
+    #print(request.json)
     mission_id = request.json.get('id')
     if mission_id:
         mission[mission_id] = request.json
@@ -75,7 +85,8 @@ def land():
 def main():
     response = register_drone()
     print(f"БПЛА зарегистрирован для выполнения задач: {response['message']}")
-    app.run(port=8080, debug=True)
+    app.run(port=8080)
+    delete_drone()
     print("БПЛА выключен")
 
 
