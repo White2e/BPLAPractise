@@ -46,7 +46,8 @@ def register_drone():
 # Получение миссии с сервера
 @app.route('/missions', methods=['POST'])
 def create_mission():
-    mission_id = request.json.get('mission_id')
+    print(request.json)
+    mission_id = request.json.get('id')
     if mission_id:
         mission[mission_id] = request.json
         return jsonify({'message': 'Mission created on Drone'}), 201

@@ -109,7 +109,7 @@ def send_mission_to_drone(mission_id, drone_id):
         drone = drones.get(drone_id)
         if drone:
             if drone['status'] == 'active':
-                drone_url = drone['control_url']
+                drone_url = drone['control_url'] + '/missions'
                 response = requests.post(drone_url, json=mission)
                 if response.status_code == 201:
                     drones['location'] = mission['route'][0]
