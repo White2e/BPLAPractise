@@ -50,6 +50,7 @@ def main():
     print(f"Миссия: {data['id']} {data['name']} создана")
 
     # Получение списка всех БПЛА (HTTP метод: GET, Эндпоинт: `/drones`).
+    print("Список всех БПЛА")
     drones = get_drones()
     pprint(drones)
 
