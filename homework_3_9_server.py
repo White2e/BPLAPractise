@@ -1,7 +1,11 @@
 # Задание - проектирование RESTful интерфейсов
 from flask import Flask, Response, request, jsonify
 import requests
+import logging
 
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO, filemode="w")
 
 # Приложение
 app = Flask(__name__)
@@ -33,6 +37,7 @@ def create_drone():
     if id:
         drones[id] = request.json
         drones[id]['status'] = 'active'
+        logging.info(f"Drone ID:{id} created")
         return jsonify({'message': f'Drone ID:{id} created'}), 201
     return jsonify({'error': 'Drone ID required'}), 400
 
@@ -43,7 +48,7 @@ def update_drone(id):
     drone = drones.get(id)
     if drone:
         drone.update(request.json)
-        print(drones.get(id))
+        logging.info(f"Drone ID:{id} updated")
         return jsonify({'message': f'Drone ID:{id} updated'}), 200
     return jsonify({'error': f'Drone ID:{id} not found'}), 404
 
@@ -53,6 +58,7 @@ def update_drone(id):
 def delete_drone(id):
     if id in drones:
         del drones[id]
+        logging.info(f"Drone ID:{id} deleted")
         return jsonify({'message': f'Drone ID:{id} deleted'}), 200
     return jsonify({'error': f'Drone ID:{id} not found'}), 404
 
@@ -63,6 +69,7 @@ def create_mission():
     mission_id = request.json.get('id')
     if mission_id:
         missions[mission_id] = request.json
+        logging.info(f"Missions ID:{mission_id} created")
         return jsonify({'message': 'Mission created'}), 201
     return jsonify({'error': 'Mission ID required'}), 400
 
@@ -88,6 +95,7 @@ def update_mission(id):
     mission = missions.get(id)
     if mission:
         mission.update(request.json)
+        logging.info(f"Mission ID:{id} updated")
         return jsonify({'message': f'Mission ID:{id} updated'}), 200
     return jsonify({'error': f'Mission ID:{id} not found'}), 404
 
@@ -97,6 +105,7 @@ def update_mission(id):
 def delete_mission(id):
     if id in missions:
         del missions[id]
+        logging.info(f"Mission ID:{id} deleted")
         return jsonify({'message': f'Mission ID:{id} deleted'}), 200
     return jsonify({'error': f'Mission ID:{id} not found'}), 404
 
@@ -114,7 +123,7 @@ def send_mission_to_drone(mission_id, drone_id):
                 if response.status_code == 201:
                     drones['location'] = mission['route'][0]
                     drones['status'] = 'mission'
-                    print(drones)
+                    logging.info(f"Mission ID:{mission_id} sent to Drone ID:{drone_id}")
             else:
                 return jsonify({'error': 'Drone is not active'}), 400
             return jsonify({'message': f'Mission ID:{mission_id} sent to Drone ID:{drone_id}'}), 200
@@ -123,7 +132,7 @@ def send_mission_to_drone(mission_id, drone_id):
 
 
 def main():
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
 
 
 if __name__ == '__main__':

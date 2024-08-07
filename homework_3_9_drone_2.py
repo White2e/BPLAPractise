@@ -5,21 +5,21 @@ import requests
 app = Flask(__name__)
 # "БПЛА" с атрибутами `id`, `name`, `status`, `location`.
 drone = {
-    "id": "B001",
-    "name": "Autel Robotics s.v.Defender",
+    "id": "B002",
+    "name": "DJI mavic 3 Pro",
     "status": "landed",
     "location": {
-        "latitude": 50.45,
+        "latitude": 51.45,
         "longitude": 30.52,
-        "altitude": 100
+        "altitude": 0
     },
-    "control_url": "http://localhost:8080"
+    "control_url": "http://localhost:8081"
 }
 
 # "Миссия" с атрибутами `id`, `name`, `start_time`, `end_time`, `route`
 mission = {
-    "id": "M001",
-    "name": "Перевозка груза",
+    "id": "M002",
+    "name": "Патрулирование",
     "start_time": "2024-08-08 09:00",
     "end_time": "2024-08-08 12:00",
     "route": [
@@ -85,7 +85,7 @@ def land():
 def main():
     response = register_drone()
     print(f"БПЛА зарегистрирован для выполнения задач: {response['message']}")
-    app.run(port=8080)
+    app.run(port=8081)
     delete_drone()
     print("БПЛА выключен")
 
