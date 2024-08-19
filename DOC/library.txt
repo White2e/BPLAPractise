@@ -1,0 +1,54 @@
+нужен дистрибутив с сайта DJI
+pip install pydji
+pip install pymavlink
+https://developer.dji.com/
+
+https://www.python.org/downloads/
+
+windirstat
+FolderSize
+
+npm -v
+npm install express ar-drone
+
+
+AirSim
+https://microsoft.github.io/AirSim/image_apis/
+pip install msgpack-rpc-python
+pip install airsim
+pip install numpy
+
+pip install memory-profiler
+pip install py-spy
+https://github.com/plasma-umass/scalene
+python3 -m pip install -U scalene
+pip install Flask-JWT-Extended
+
+
+
+https://www.odin.study/ru/Activity/Info/1658459
+https://www.odin.study/ru/Discipline/Info/114762
+https://www.odin.study/ru/Discipline/Info/111709
+
+
+
+
+https://drive.google.com/drive/folders/1iYcwUDnjN_hljHrRnAVjGmxuPbH-WJ_A
+
+
+https://www.tadviser.ru/index.php/%D0%A1%D1%82%D0%B0%D1%82%D1%8C%D1%8F:%D0%91%D0%B5%D1%81%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%D0%BD%D1%8B%D0%B9_%D0%BB%D0%B5%D1%82%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BF%D0%BF%D0%B0%D1%80%D0%B0%D1%82_%28%D0%B4%D1%80%D0%BE%D0%BD%2C_%D0%91%D0%9F%D0%9B%D0%90%29
+https://clover.coex.tech/ru/programming.html
+https://disk.yandex.ru/i/YgI2cFcO6eorVQ
+https://otus.ru/journal/klient-servernaya-model-v-pitone-i-sokety/
+
+https://www.atlassian.com/ru/git/tutorials/syncing/git-pull
+https://skillbox.ru/media/code/sqlalchemy-chto-eto-takoe-i-zachem-nuzhno/
+https://habr.com/ru/articles/671798/
+
+https://dronnews.ru/novosti/obnovlenie-dji-sdk-kak-rabotaet-po-na-dji-mini-2-dji-air-2s-i-mini-se.html?utm_referrer=https%3A%2F%2Fwww.google.com%2F
+https://mavlink.io/en/about/implementations.html
+http://protello.com/tello-sdk-1/
+
+https://habr.com/ru/articles/781866/
+
+

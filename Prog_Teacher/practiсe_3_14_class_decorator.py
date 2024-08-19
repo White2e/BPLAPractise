@@ -1,5 +1,6 @@
 # Паттерн Команда и Стратегия
 from abc import ABC, abstractmethod
+from practiсe_3_14_2 import *
 
 # Класс для управления дроном, включает методы для выполнения основных команд
 class DroneController:
@@ -81,7 +82,8 @@ class IFlightStrategy(ABC):
 
 # Стратегия разведывательной миссии
 class ReconMissionStrategy(IFlightStrategy):
-    def execute(self, commands: list):
+    @SafetyCheck(secret_key='my_secret_key')
+    def execute(self, commands: list, token=None):
         # Выполняет разведывательную миссию, выполняя все команды в списке
         print(f"Начало выполнения разведывательной миссии")
         for command in commands:
@@ -93,7 +95,8 @@ class PatrolMissionStrategy(IFlightStrategy):
     def __init__(self, n_patrols: int):
         self.__n_patrols = n_patrols  # Количество циклов патрулирования
 
-    def execute(self, commands: list):
+    @SafetyCheck(secret_key='my_secret_key')
+    def execute(self, commands: list, token=None):
         # Выполняет патрульную миссию, повторяя все команды в списке заданное количество раз
         print(f"Начало выполнения миссии патрулирования")
         for _ in range(self.__n_patrols):
@@ -122,12 +125,33 @@ class DroneContext:
         """
         self.__commands.append(command)
 
-    def execute(self):
+    def execute(self, token=None):
         """
         Выполняет все команды, используя текущую стратегию полета.
         После выполнения команды очищает список.
         """
-        self.__strategy.execute(self.__commands)
+        self.__strategy.execute(self.__commands, token=token)
         self.__commands.clear()
 
 
+if __name__ == '__main__':
+    drone_controller = DroneController()
+
+    context = DroneContext()
+    context.set_strategy(ReconMissionStrategy())
+
+    secret_key = 'my_secret_key'
+    token = jwt.encode({"sub": "drone_123"}, secret_key, algorithm='HS256')
+
+    context.add_command(Takeoff(drone_controller))
+    context.add_command(MoveForward(drone_controller, 100))
+    context.add_command(MoveForward(drone_controller, 20))
+
+    context.execute(token=token)
+
+    context.set_strategy(PatrolMissionStrategy(n_patrols=3))
+    for _ in range(4):
+        context.add_command(MoveForward(drone_controller, 50))
+        context.add_command(Turn(drone_controller, 90))
+
+    context.execute(token=token)

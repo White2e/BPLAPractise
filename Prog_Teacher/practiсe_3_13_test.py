@@ -25,8 +25,12 @@ context.add_command(MoveForward(drone_controller, 20))
 
 context.execute()
 
+context.set_strategy(PatrolMissionStrategy(n_patrols=3))
+for _ in range(4):
+    context.add_command(MoveForward(drone_controller, 50))
+    context.add_command(Turn(drone_controller, 90))
 
-
+context.execute()
 
 
 
