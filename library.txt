@@ -1,0 +1,5 @@
+pip install pymavlink
+https://developer.dji.com/
+
+windirstat
+FolderSize
