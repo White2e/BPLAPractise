@@ -23,6 +23,7 @@ pip install py-spy
 https://github.com/plasma-umass/scalene
 python3 -m pip install -U scalene
 pip install Flask-JWT-Extended
+pip install pyinstrument
 
 
 
@@ -50,5 +51,6 @@ https://mavlink.io/en/about/implementations.html
 http://protello.com/tello-sdk-1/
 
 https://habr.com/ru/articles/781866/
+https://proproprogs.ru/python_oop/magicheskiy-metod-call-funktory-i-klassy-dekoratory
 
 
