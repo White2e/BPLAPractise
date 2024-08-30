@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление дроном</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .auth-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .auth-container input[type="text"], .auth-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .auth-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .auth-container button:hover {
+            background-color: #0056b3;
+        }
+        .drone-control {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .drone-control button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .drone-control button:hover {
+            background-color: #218838;
+        }
+        #status {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            height: 200px;
+            overflow-y: scroll;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Управление дроном T-1000</h1>
+
+    <div class="auth-container">
+        <h2>Авторизация</h2>
+        <input type="text" id="username" placeholder="Имя пользователя">
+        <input type="password" id="password" placeholder="Пароль">
+        <button onclick="login()">Войти</button>
+    </div>
+
+    <div class="drone-control">
+        <button onclick="sendCommand('takeoff')">Взлет</button>
+        <button onclick="sendCommand('land')">Приземление</button>
+        <p id="DroneStatus">Статус дрона: </p>
+    </div>
+
+    <div id="status">
+        <p>Лог дрона: </p>
+    </div>
+
+<script>
+        const socket = new WebSocket("ws://localhost:8765");
+
+        function updateStatus(status) {
+            const divStatus = document.getElementById("status");
+            const newStatus = document.createElement("p");
+            newStatus.textContent = status;
+            divStatus.appendChild(newStatus);
+            divStatus.scrollTop = divStatus.scrollHeight;
+
+            const pStatus = document.getElementById("DroneStatus");
+            pStatus.textContent = "Статус дрона: " + status;
+        }
+
+        function sendCommand(command) {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert("Вы не авторизованы!");
+                return;
+            }
+            // Пример отправки команды с JWT токеном
+            const message = {
+                command: command,
+                token: token
+            };
+            socket.send(JSON.stringify(message));
+            console.log(`Sent command: ${command}`);
+        }
+
+        socket.onopen = () => {
+            console.log("WebSocket connected");
+        }
+
+        socket.onmessage = (event) => {
+            console.log("Server message", event.data);
+            updateStatus(event.data);
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Пример отправки запроса на сервер для авторизации
+            fetch("http://localhost:8765/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    // Сохраняем имя пользователя, пароль и токен
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('password', password); // Обычно пароль не сохраняют в локальном хранилище по соображениям безопасности
+                    localStorage.setItem('jwtToken', data.token);
+                    alert("Авторизация успешна!");
+                } else {
+                    alert("Ошибка авторизации");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

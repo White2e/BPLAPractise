@@ -63,7 +63,7 @@ class ChangeCourse(Command):
 class RemoteControl:
     def __init__(self):
         self._commands = []
-        self._history= []
+        self._history = []
 
     def add_command(self, command: Command):
         self._commands.append(command)

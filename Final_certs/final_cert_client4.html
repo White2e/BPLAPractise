@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация и управление дроном</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            justify-content: center;
+        }
+        .auth-container, .command-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        .auth-container input[type="text"], .auth-container input[type="password"],
+        .command-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .auth-container button, .command-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .auth-container button:hover, .command-container button:hover {
+            background-color: #0056b3;
+        }
+        .status-message {
+            margin-top: 20px;
+            color: #ff0000;
+            font-size: 14px;
+        }
+        .response-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-top: 20px;
+        }
+        .response-container p {
+            margin: 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Авторизация</h2>
+        <input type="text" id="username" placeholder="Имя пользователя">
+        <input type="password" id="password" placeholder="Пароль">
+        <button onclick="login()">Войти</button>
+        <p class="status-message" id="statusMessage"></p>
+    </div>
+
+    <div class="command-container">
+        <h2>Управление дроном</h2>
+        <input type="text" id="droneCommand" placeholder="Введите команду">
+        <button onclick="sendCommand()">Отправить команду</button>
+        <p class="status-message" id="commandStatusMessage"></p>
+    </div>
+
+    <div class="response-container">
+        <h3>Ответ сервера:</h3>
+        <p id="serverResponse"></p>
+    </div>
+
+    <script>
+        let socket;
+
+        function connectSocket() {
+            socket = new WebSocket("ws://localhost:8765");
+
+            socket.onopen = () => {
+                console.log("WebSocket connected");
+            };
+
+            socket.onmessage = (event) => {
+                const statusMessage = document.getElementById('statusMessage');
+                const commandStatusMessage = document.getElementById('commandStatusMessage');
+                const serverResponse = document.getElementById('serverResponse');
+
+                if (event.data.startsWith("JWT:")) {
+                    const token = event.data.substring(4);
+                    localStorage.setItem('jwtToken', token);
+                    statusMessage.style.color = "green";
+                    statusMessage.textContent = "Авторизация успешна!";
+                } else if (event.data.startsWith("AUTHORIZED:")) {
+                    commandStatusMessage.style.color = "green";
+                    commandStatusMessage.textContent = "Команда успешно отправлена!";
+                    serverResponse.textContent = event.data;
+                } else {
+                    commandStatusMessage.style.color = "red";
+                    commandStatusMessage.textContent = event.data;
+                    serverResponse.textContent = event.data;
+                }
+            };
+
+            socket.onerror = (error) => {
+                console.error("WebSocket error: ", error);
+            };
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!socket || socket.readyState !== WebSocket.OPEN) {
+                connectSocket();
+            }
+
+            const credentials = `LOGIN:${username},${password}`;
+            socket.send(credentials);
+        }
+
+        function sendCommand() {
+            const command = document.getElementById('droneCommand').value;
+            const token = localStorage.getItem('jwtToken');
+
+            if (!token) {
+                document.getElementById('commandStatusMessage').textContent = "Вы не авторизованы!";
+                return;
+            }
+
+            const commandMessage = `COMMAND:${token},${command}`;
+            socket.send(commandMessage);
+        }
+
+        window.onload = () => {
+            connectSocket();
+        };
+    </script>
+</body>
+</html>

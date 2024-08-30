@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            justify-content: center;
+        }
+        .auth-container {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .auth-container input[type="text"], .auth-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .auth-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .auth-container button:hover {
+            background-color: #0056b3;
+        }
+        .status-message {
+            margin-top: 20px;
+            color: #ff0000;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Авторизация</h2>
+        <input type="text" id="username" placeholder="Имя пользователя">
+        <input type="password" id="password" placeholder="Пароль">
+        <button onclick="login()">Войти</button>
+        <p class="status-message" id="statusMessage"></p>
+    </div>
+
+    <script>
+        let socket;
+
+        function connectSocket() {
+            socket = new WebSocket("ws://localhost:8765");
+
+            socket.onopen = () => {
+                console.log("WebSocket connected");
+            };
+
+            socket.onmessage = (event) => {
+                const statusMessage = document.getElementById('statusMessage');
+                if (event.data.startsWith("JWT:")) {
+                    const token = event.data.substring(4);
+                    localStorage.setItem('jwtToken', token);
+                    statusMessage.style.color = "green";
+                    statusMessage.textContent = "Авторизация успешна!";
+                } else {
+                    statusMessage.textContent = event.data;
+                }
+            };
+
+            socket.onerror = (error) => {
+                console.error("WebSocket error: ", error);
+            };
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!socket || socket.readyState !== WebSocket.OPEN) {
+                connectSocket();
+            }
+
+            const credentials = `LOGIN:${username},${password}`;
+            socket.send(credentials);
+        }
+
+        window.onload = () => {
+            connectSocket();
+        };
+    </script>
+</body>
+</html>

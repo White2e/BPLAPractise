@@ -3,6 +3,10 @@ pip install pydji
 pip install pymavlink
 https://developer.dji.com/
 
+
+pip freeze > requirements.txt
+
+
 https://www.python.org/downloads/
 
 windirstat
@@ -16,7 +20,10 @@ AirSim
 https://microsoft.github.io/AirSim/image_apis/
 pip install msgpack-rpc-python
 pip install airsim
+pip install --upgrade airsim
 pip install numpy
+
+pip install requirements
 
 pip install memory-profiler
 pip install py-spy
@@ -25,6 +32,15 @@ python3 -m pip install -U scalene
 pip install Flask-JWT-Extended
 pip install pyinstrument
 
+from pyinstrument import Profiler
+
+
+драйвера для системы распознавания лиц
+https://developer.nvidia.com/cuda-downloads
+https://www.nvidia.com/en-us/drivers/
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+import torch import numpy as np import pandas as pd import cv2 import requests
+
 
 
 https://www.odin.study/ru/Activity/Info/1658459
@@ -32,6 +48,10 @@ https://www.odin.study/ru/Discipline/Info/114762
 https://www.odin.study/ru/Discipline/Info/111709
 
 
+обучение сетей
+https://colab.research.google.com/drive/1kQUV7iOcSeNmqOEQBdPfvWnsZ3VcZHxf?usp=sharing
+модели
+https://www.kaggle.com/datasets/
 
 
 https://drive.google.com/drive/folders/1iYcwUDnjN_hljHrRnAVjGmxuPbH-WJ_A
@@ -53,4 +73,61 @@ http://protello.com/tello-sdk-1/
 https://habr.com/ru/articles/781866/
 https://proproprogs.ru/python_oop/magicheskiy-metod-call-funktory-i-klassy-dekoratory
 
+https://tproger.ru/articles/profilirovanie-koda-na-python-luchwie-praktiki-i-instrumenty
+https://digitology.tech/docs/python_3/library/profile.html
 
+https://www.inp.nsk.su/~grozin/python/python8.html
+https://vc.ru/newtechaudit/598630-kak-uvelichit-skorost-raboty-python-s-numba
+
+https://docs-python.ru/tutorial/mnogopotochnost-python/
+https://cs.mipt.ru/advanced_python/lessons/lab11.html
+
+https://pyneng.readthedocs.io/ru/latest/book/19_concurrent_connections/concurrent_futures.html
+https://docs-python.ru/standart-library/modul-concurrent-futures-python/
+
+https://devpractice.ru/python-lesson-22-concurrency-part-1/
+https://codechick.io/tutorials/python/python-processes-and-threads
+
+https://edu.vsu.ru/pluginfile.php/2011081/mod_resource/content/1/%D0%BF%D0%B8%D1%82%D0%BE%D0%BD%20%D0%B8%20ML.pdf
+https://webdevblog.ru/osnovy-upravleniya-pamyatju-v-python/
+
+https://pythonist.ru/priyomy-dlya-uskoreniya-koda-na-python/
+https://www.internet-technologies.ru/articles/desyat-sposobov-dlya-uskoreniya-koda-na-python.html
+
+
+
+
+
+            fetch("http://localhost:8765/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    // Сохраняем имя пользователя, пароль и токен
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('password', password); // Обычно пароль не сохраняют в локальном хранилище по соображениям безопасности
+                    localStorage.setItem('jwtToken', data.token);
+                    alert("Авторизация успешна!");
+                } else {
+                    alert("Ошибка авторизации");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+
+
+import logging
+#import airsim
+import numpy as np
+from pyinstrument import Profiler
+
+logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
+
+logging.info('Drone is avoiding obstacle')
