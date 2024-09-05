@@ -35,12 +35,15 @@ pip install pyinstrument
 from pyinstrument import Profiler
 
 
+
 драйвера для системы распознавания лиц
 https://developer.nvidia.com/cuda-downloads
 https://www.nvidia.com/en-us/drivers/
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 import torch import numpy as np import pandas as pd import cv2 import requests
 
+pip uninstall torch torchvision torchaudio
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 
 https://www.odin.study/ru/Activity/Info/1658459
@@ -52,6 +55,12 @@ https://www.odin.study/ru/Discipline/Info/111709
 https://colab.research.google.com/drive/1kQUV7iOcSeNmqOEQBdPfvWnsZ3VcZHxf?usp=sharing
 модели
 https://www.kaggle.com/datasets/
+
+чат
+стратегия, команда, адаптер, легковес, фабрика
+
+
+ffplay udp://127.0.0.1:1234
 
 
 https://drive.google.com/drive/folders/1iYcwUDnjN_hljHrRnAVjGmxuPbH-WJ_A
@@ -95,6 +104,24 @@ https://pythonist.ru/priyomy-dlya-uskoreniya-koda-na-python/
 https://www.internet-technologies.ru/articles/desyat-sposobov-dlya-uskoreniya-koda-na-python.html
 
 
+https://datafinder.ru/products/rukovodstvo-po-scikit-learn-dlya-mashinnogo-obucheniya
+https://neurohive.io/ru/tutorial/pytorch-vs-tensorflow/
+
+https://pythonist.ru/vvedenie-v-opencv-biblioteku-kompyuternogo-zreniya-na-python/
+
+https://clover.coex.tech/ru/
+https://clover.coex.tech/ru/programming.html?q=API
+
+https://tproger.ru/articles/profilirovanie-koda-na-python-luchwie-praktiki-i-instrumenty
+https://digitology.tech/docs/python_3/library/profile.html
+
+
+
+
+
+
+
+
 
 
 
@@ -111,6 +138,8 @@ https://www.internet-technologies.ru/articles/desyat-sposobov-dlya-uskoreniya-ko
                     // Сохраняем имя пользователя, пароль и токен
                     localStorage.setItem('username', username);
                     localStorage.setItem('password', password); // Обычно пароль не сохраняют в локальном хранилище по соображениям безопасности
+
+
                     localStorage.setItem('jwtToken', data.token);
                     alert("Авторизация успешна!");
                 } else {
