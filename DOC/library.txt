@@ -44,6 +44,7 @@ import torch import numpy as np import pandas as pd import cv2 import requests
 
 pip uninstall torch torchvision torchaudio
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install scikit-learn
 
 
 https://www.odin.study/ru/Activity/Info/1658459
@@ -115,6 +116,16 @@ https://clover.coex.tech/ru/programming.html?q=API
 https://tproger.ru/articles/profilirovanie-koda-na-python-luchwie-praktiki-i-instrumenty
 https://digitology.tech/docs/python_3/library/profile.html
 
+
+airsim
+https://disk.yandex.ru/d/9zcS1Ip7FQyrxg
+VMWare
+https://rutube.ru/video/private/50088ba4fde77122845d965096c901cb/?p=_I8GmONwr2uM6kOV3B11wA
+
+
+https://habr.com/ru/companies/ods/articles/483616/
+https://github.com/ericjohnson97/OpenLander
+https://www.youtube.com/@IntelligentQuads
 
 
 

@@ -1,3 +1,5 @@
+#  тестирование приложения
+#
 import unittest
 from practise_1_15 import Drone
 
